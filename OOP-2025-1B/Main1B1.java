@@ -3,7 +3,7 @@ class Main1B1 {
     System.out.println("The number of arguments: " + args.length);
 
     if (args.length >= 0) {
-      int i = 1;
+      int i = 0;
       for (String arg : args) {
         System.out.println("args[" + i + "] " + arg);
         i++;

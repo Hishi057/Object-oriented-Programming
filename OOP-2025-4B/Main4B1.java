@@ -10,10 +10,7 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.stream.Stream;
 
-
-
 public class Main4B1 {
-
     // 行の数は厳密に\nの数を数える。
     // InputStreamとか使うとなんかちゃんと数えられないから。
     public static long countNewlinesInFile(Path path) throws IOException {
@@ -61,14 +58,14 @@ public class Main4B1 {
             w = w.replace("!", "");
             w = w.replace("！", ""); // ← 💢
             
-            System.out.println(w);
+            // System.out.println(w);
             if(!w.isEmpty()) {
                 word_num++;
                 unique_words.add(w);
             }
         }
 
-        System.out.println(unique_words);
+        // System.out.println(unique_words);
         unique_word_num = unique_words.size();
 
         System.out.println("line num: " + line_num);

@@ -1,0 +1,13 @@
+WORLD: WORLD_HEX
+SIZE: 7
+RULE: B3/S23
+NEIGHBORHOOD: HEX6
+WRAP: false
+
+.......
+.......
+...OOO.
+..O.O..
+...OOO.
+.......
+.......

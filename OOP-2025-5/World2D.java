@@ -1,8 +1,8 @@
 public class World2D extends World {
-    private boolean useMoore = true;
+    private boolean useMoore;
     
-    public World2D(Rule rule, int size, boolean useMoore) {
-        super(rule, size);
+    public World2D(Rule rule, int size, boolean wrap, boolean useMoore) {
+        super(rule, size, wrap);
         this.useMoore = useMoore;
     }
 
@@ -18,8 +18,16 @@ public class World2D extends World {
                 
                 int nx = x + dx;
                 int ny = y + dy;
-                if(isValid(nx, ny, z)){
-                    count += grid[nx][ny][z];
+                if(wrap){
+                    nx = wrap(nx);
+                    ny = wrap(ny);
+                    if(grid[nx][ny][0] == 1){
+                        count += 1;
+                    }
+                } else {
+                    if(isValid(nx, ny, 0) && grid[nx][ny][0] == 1){
+                        count += 1;
+                    }
                 }
             }
         }

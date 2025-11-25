@@ -59,16 +59,55 @@ public class PatternParser {
         return sb.toString();
     }
     
+    public void updateHeader(String key, String value) {
+        if (!header.containsKey(key)) {
+            headerOrder.add(key);
+        }
+        header.put(key, value);
+    }
+    
     public int[][][] createGrid(int size, int sizeZ) {
         int[][][] grid = new int[size][size][sizeZ];
         int lineIdx = 0;
-        for (int y = 0; y < size && lineIdx < lines.size(); y++) {
-            String line = lines.get(lineIdx++);
-            for (int x = 0; x < Math.min(size, line.length()); x++) {
-                char c = line.charAt(x);
-                grid[x][y][0] = (c == 'O') ? 1 : 0;
+        
+        if (sizeZ == 1) {
+            // 2D or HEX
+            if (size != lines.size()) {
+                throw new IllegalArgumentException("sizeの値とパターンの行数が一致しません");
+            }
+            
+            for (int y = 0; y < size && lineIdx < lines.size(); y++) {
+                String line = lines.get(lineIdx++);
+                for (int x = 0; x < Math.min(size, line.length()); x++) {
+                    char c = line.charAt(x);
+                    grid[x][y][0] = (c == 'O') ? 1 : 0;
+                }
+            }
+        } else {
+            // 3D: SIZE層 × SIZE行、層間は空行
+            for (int z = 0; z < sizeZ; z++) {
+                for (int y = 0; y < size; y++) {
+                    if (lineIdx >= lines.size()) {
+                        throw new IllegalArgumentException("3Dパターンの行数が不足しています");
+                    }
+                    String line = lines.get(lineIdx++);
+                    if (line.trim().isEmpty()) {
+                        // 空行が層の途中に来た場合はスキップ
+                        y--;
+                        continue;
+                    }
+                    for (int x = 0; x < Math.min(size, line.length()); x++) {
+                        char c = line.charAt(x);
+                        grid[x][y][z] = (c == 'O') ? 1 : 0;
+                    }
+                }
+                // 次の層に移る前に空行をスキップ
+                if (z < sizeZ - 1 && lineIdx < lines.size() && lines.get(lineIdx).trim().isEmpty()) {
+                    lineIdx++;
+                }
             }
         }
+        
         return grid;
     }
 }
